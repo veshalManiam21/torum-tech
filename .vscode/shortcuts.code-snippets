@@ -1,0 +1,257 @@
+{
+  // Place your nodejs workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"scope": "javascript,typescript",
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "Create Component (TypeScript)": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "scaffold component",
+    "body": [
+      "import React from 'react';",
+      "",
+      "export type $1Props = {};",
+      "",
+      "export const ${1:${TM_FILENAME_BASE/(.+)/${1:/capitalize}/}}: React.FC<$1Props> = (${3:props}) => {",
+      "  return (",
+      "    <$2>",
+      "",
+      "    </$2>",
+      "  );",
+      "};",
+      ""
+    ],
+    "description": "Create a component"
+  },
+  "Create Server Side Page (TypeScript)": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "scaffold page server",
+    "body": [
+      "import React from 'react';",
+      "",
+      "import type { GetServerSideProps } from 'next';",
+      "import type { NextPage } from '@/typings/types';",
+      "",
+      "type $1PageProps = {};",
+      "",
+      "const ${1:${TM_FILENAME_BASE/(.+)/${1:/capitalize}/}}Page: NextPage<$1PageProps> = () => {",
+      "  return (",
+      "    <${2:main}>",
+      "",
+      "    </$2>",
+      "  );",
+      "};",
+      "",
+      "export const getServerSideProps: GetServerSideProps<$1PageProps> = withSSRMiddlewares(async (context) => {",
+      "  return {",
+      "    props: {}",
+      "  };",
+      "});",
+      "",
+      "export default $1Page;",
+      ""
+    ],
+    "description": "Create a server side page"
+  },
+  "Create Static Page (TypeScript)": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "scaffold page static",
+    "body": [
+      "import React from 'react';",
+      "",
+      "import type { GetStaticProps } from 'next';",
+      "import type { NextPage } from '@/typings/types';",
+      "",
+      "type $1PageProps = {};",
+      "",
+      "const ${1:${TM_FILENAME_BASE/(.+)/${1:/capitalize}/}}Page: NextPage<$1PageProps> = () => {",
+      "  return (",
+      "    <${2:main}>",
+      "",
+      "    </$2>",
+      "  );",
+      "};",
+      "",
+      "export const getStaticProps: GetStaticProps<$1PageProps> = async (",
+      "  context",
+      ") => {",
+      "  return {",
+      "    props: {}",
+      "  };",
+      "};",
+      "",
+      "export default $1Page;",
+      ""
+    ],
+    "description": "Create a static page"
+  },
+  "Create Static Page For Dynamic Route (TypeScript)": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "scaffold page static paths",
+    "body": [
+      "import React from 'react';",
+      "",
+      "import type { GetStaticProps, GetStaticPaths } from 'next';",
+      "import type { NextPage } from '@/typings/types';",
+      "",
+      "type $1PageProps = {};",
+      "",
+      "const ${1:${TM_FILENAME_BASE/(.+)/${1:/capitalize}/}}Page: NextPage<$1PageProps> = () => {",
+      "  return (",
+      "    <${2:main}>",
+      "",
+      "    </$2>",
+      "  );",
+      "};",
+      "",
+      "export const getStaticProps: GetStaticProps<$1PageProps> = async (",
+      "  context",
+      ") => {",
+      "  return {",
+      "    props: {}",
+      "  };",
+      "};",
+      "",
+      "export const getStaticPaths: GetStaticPaths = () => {",
+      "  return {",
+      "    paths: [],",
+      "    fallback: false,",
+      "  };",
+      "};",
+      "",
+      "export default $1Page;",
+      ""
+    ],
+    "description": "Create a static page for a dynamic route"
+  },
+  "Create Provider (TypeScript)": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "scaffold provider",
+    "body": [
+      "import React, { useContext, useMemo } from 'react';",
+      "",
+      "export type $1 = {};",
+      "",
+      "export type $1ProviderProps = {};",
+      "",
+      "const $1Context = React.createContext({} as $1);",
+      "",
+      "export const use$1 = () => useContext($1Context);",
+      "export const ${1:${TM_FILENAME_BASE/^(.+)Provider$/${1:/capitalize}/}}Provider: React.FC<$1ProviderProps> = (props) => {",
+      "  const value = useMemo<$1>(() => {",
+      "    return {};",
+      "  }, []);",
+      "  return (",
+      "    <$1Context.Provider value={value}>",
+      "      {props.children}",
+      "    </$1Context.Provider>",
+      "  );",
+      "};",
+      ""
+    ],
+    "description": "Create a provider"
+  },
+  "Create Component (JavaScript)": {
+    "scope": "javascript, javascriptreact",
+    "prefix": "scaffold component",
+    "body": [
+      "import React from 'react';",
+      "import PropTypes from 'prop-types';",
+      "",
+      "export const ${1:${TM_FILENAME_BASE/(.+)/${1:/capitalize}/}} = (${3:props}) => {",
+      "  return (",
+      "    <$2>",
+      "",
+      "    </$2>",
+      "  );",
+      "};",
+      "",
+      "$1.propTypes = {${4:\n  children: PropTypes.node$5,}${6:\n  className: PropTypes.string$7,}",
+      "};",
+      ""
+    ],
+    "description": "Create a component"
+  },
+  "Create Provider (JavaScript)": {
+    "scope": "javascript, javascriptreact",
+    "prefix": "scaffold provider",
+    "body": [
+      "import React, { useContext, useMemo } from 'react';",
+      "import PropTypes from 'prop-types';",
+      "",
+      "/**",
+      " * @typedef {Object} $1",
+      " */",
+      "",
+      "/**",
+      " * @type {React.Context<$1>}",
+      " */",
+      "const $1Context = React.createContext({});",
+      "",
+      "export const use$1 = () => useContext($1Context);",
+      "export const ${1:${TM_FILENAME_BASE/^(.+)Provider$/${1:/capitalize}/}}Provider = (props) => {",
+      "  const value = useMemo(() => {",
+      "    return {};",
+      "  }, []);",
+      "  return (",
+      "    <$1Context.Provider value={value}>",
+      "      {props.children}",
+      "    </$1Context.Provider>",
+      "  );",
+      "};",
+      "",
+      "$1Provider.propTypes = {",
+      "  children: PropTypes.node.isRequired,",
+      "};",
+      ""
+    ],
+    "description": "Create a provider"
+  },
+  "Import default": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "import default",
+    "body": ["import ${2:VariableName} from '$1';"],
+    "description": "Import default"
+  },
+  "Import named": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "import named",
+    "body": ["import { $2 } from '$1';"],
+    "description": "Import named"
+  },
+  "Import type": {
+    "scope": "typescript, typescriptreact",
+    "prefix": "import type",
+    "body": ["import type { $2 } from '$1';"],
+    "description": "Import types"
+  },
+  "Export named": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "export named",
+    "body": ["export ${1:const} $2 = $3;"],
+    "description": "Export named"
+  },
+  "Export function": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "export function",
+    "body": ["export function $1($2){", "  $3", "}"],
+    "description": "Export function"
+  },
+  "Export from": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "export from",
+    "body": ["export { $2 } from '$1';"],
+    "description": "Export from somewhere."
+  }
+}
