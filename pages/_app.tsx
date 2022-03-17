@@ -3,15 +3,18 @@ import type { AppContext, AppInitialProps, AppProps } from "next/app";
 
 import { NextComponentType } from "next";
 import { BaseLayout } from "@/components/Layout/BaseLayout";
+import { ModalProvider } from "@/providers/ModalProvider";
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
   pageProps,
 }) => {
   return (
-    <BaseLayout>
-      <Component {...pageProps} />
-    </BaseLayout>
+    <ModalProvider>
+      <BaseLayout>
+        <Component {...pageProps} />
+      </BaseLayout>
+    </ModalProvider>
   );
 };
 
