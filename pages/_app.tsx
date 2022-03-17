@@ -1,8 +1,18 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppContext, AppInitialProps, AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+import { NextComponentType } from "next";
+import { BaseLayout } from "@/components/Layout/BaseLayout";
 
-export default MyApp
+const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
+  Component,
+  pageProps,
+}) => {
+  return (
+    <BaseLayout>
+      <Component {...pageProps} />
+    </BaseLayout>
+  );
+};
+
+export default App;
