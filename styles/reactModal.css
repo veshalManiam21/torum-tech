@@ -1,0 +1,56 @@
+/**
+ * For react-modal transitions
+ * https://reactcommunity.org/react-modal/styles/transitions/
+ */
+
+.ReactModal__Overlay {
+  @apply transition-opacity duration-200 opacity-0;
+}
+
+.ReactModal__Overlay--after-open {
+  @apply opacity-100;
+}
+
+.ReactModal__Overlay--before-close {
+  @apply opacity-0;
+}
+
+.ReactModal__Content {
+  @apply transition-transform duration-200 transform-gpu;
+}
+
+.ReactModal__Content--from-left.ReactModal__Content--after-open {
+  @apply translate-x-0;
+}
+
+.ReactModal__Content--from-left,
+.ReactModal__Content--from-left.ReactModal__Content--before-close {
+  @apply -translate-x-full;
+}
+
+.ReactModal__Content--from-right.ReactModal__Content--after-open {
+  @apply translate-x-0;
+}
+
+.ReactModal__Content--from-right,
+.ReactModal__Content--from-right.ReactModal__Content--before-close {
+  @apply translate-x-full;
+}
+
+.ReactModal__Content--from-top.ReactModal__Content--after-open {
+  @apply translate-y-0;
+}
+
+.ReactModal__Content--from-top,
+.ReactModal__Content--from-top.ReactModal__Content--before-close {
+  @apply -translate-y-full;
+}
+
+.ReactModal__Content--from-bottom.ReactModal__Content--after-open {
+  @apply translate-y-0;
+}
+
+.ReactModal__Content--from-bottom,
+.ReactModal__Content--from-bottom.ReactModal__Content--before-close {
+  @apply translate-y-full;
+}

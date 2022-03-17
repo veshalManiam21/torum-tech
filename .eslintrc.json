@@ -59,7 +59,9 @@
       "files": ["*.ts", "*.tsx"],
       "rules": {
         "no-dupe-class-members": "off",
-        "no-undef": "off"
+        "no-redeclare": "off",
+        "no-undef": "off",
+        "no-unused-vars": "off"
       }
     },
     {
