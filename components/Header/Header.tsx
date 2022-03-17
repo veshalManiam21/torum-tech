@@ -2,7 +2,6 @@ import React from "react";
 import IconProfile from "@/assets/icon_profile.svg";
 import { Link } from "../Link/Link";
 import { useModal } from "@/providers/ModalProvider";
-import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
 import { LoginCard } from "../LoginCard/LoginCard";
 
 export type HeaderProps = {};
