@@ -18,9 +18,7 @@ export const Header: React.FC<HeaderProps> = () => {
         <button
           onClick={() => {
             openModal({
-              content: (
-                <LoginCard onConfirm={closeModal} onCancel={closeModal} />
-              ),
+              content: <LoginCard onCloseModal={closeModal} />,
               showCloseButton: true,
             });
           }}
