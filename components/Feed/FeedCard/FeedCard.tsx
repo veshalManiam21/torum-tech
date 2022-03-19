@@ -13,10 +13,10 @@ import { FeedComments } from "../FeedComments/FeedComments";
 import { FeedTags } from "../FeedTags/FeedTags";
 
 export type FeedCardProps = {
-  articleData: FeedItemProps;
+  feedData: FeedItemProps;
 };
 
-export const FeedCard: React.FC<FeedCardProps> = ({ articleData }) => {
+export const FeedCard: React.FC<FeedCardProps> = ({ feedData }) => {
   const { getFeedComments } = useFeed();
   const [commentsData, setCommentsData] = useState<CommentListType["comments"]>(
     []
@@ -24,10 +24,10 @@ export const FeedCard: React.FC<FeedCardProps> = ({ articleData }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getCommentData = useCallback(async () => {
-    const commentData = await getFeedComments(articleData.slug);
+    const commentData = await getFeedComments(feedData.slug);
     await setCommentsData(commentData);
     await setIsLoading(true);
-  }, [getFeedComments, articleData.slug]);
+  }, [getFeedComments, feedData.slug]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -39,26 +39,27 @@ export const FeedCard: React.FC<FeedCardProps> = ({ articleData }) => {
     <div className="px-4 py-3 space-y-2 rounded-lg max-w-2xl m-auto bg-black-0d0f14">
       {/* Card header */}
       <FeedHeader
-        title={articleData.title}
-        createdAt={articleData.createdAt}
-        desc={articleData.description}
+        title={feedData.title}
+        createdAt={feedData.createdAt}
+        desc={feedData.description}
         user={{
-          ...articleData.author,
-          isFollowing: articleData.author.following,
-          name: articleData.author.username,
+          ...feedData.author,
+          isFollowing: feedData.author.following,
+          name: feedData.author.username,
         }}
+        slug={feedData.slug}
       />
       {/* Card Body */}
       <div className="space-y-2">
-        <FeedBody body={articleData.body} />
-        <FeedTags tags={articleData.tagList} />
+        <FeedBody body={feedData.body} />
+        <FeedTags tags={feedData.tagList} />
       </div>
 
       {/* Card Actions */}
       <FeedActions
         favourite={{
-          count: articleData.favoritesCount,
-          isFav: articleData.favourited,
+          count: feedData.favoritesCount,
+          isFav: feedData.favourited,
         }}
         comments={{
           count: commentsData.length,
@@ -66,7 +67,7 @@ export const FeedCard: React.FC<FeedCardProps> = ({ articleData }) => {
       />
       {/* User Comment Box */}
       <div className="py-2 border-b border-black-07080b">
-        <FeedUserInput slug={articleData.slug} />
+        <FeedUserInput slug={feedData.slug} />
       </div>
 
       {/* Comments */}

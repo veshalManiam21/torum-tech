@@ -25,6 +25,10 @@ type FeedListType = {
   articleCount: number;
 };
 
+export type SingleFeedType = {
+  article: FeedItemProps;
+};
+
 export type CommentListType = {
   comments: CommentDetailType[];
 };

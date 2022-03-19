@@ -16,15 +16,17 @@ export type FeedHeaderProps = {
     isFollowing: boolean;
     bio: string | null;
   };
+  slug?: string;
   body?: string;
 };
 
 export const FeedHeader: React.FC<FeedHeaderProps> = ({
-  title,
+  body,
   createdAt,
   desc,
+  slug,
+  title,
   user,
-  body,
 }) => {
   const profileCard = (
     <ProfileCard
@@ -82,7 +84,7 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
             <div className="space-y-1 mt-1">
               {title ? (
                 <Link
-                  href="#"
+                  href={`/feed/${slug}`}
                   className="line-clamp-1 hover:underline text-sm font-medium text-blue-300 md:space-x-1 flex flex-wrap"
                 >
                   {title}

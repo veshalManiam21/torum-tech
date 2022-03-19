@@ -1,6 +1,5 @@
 import { CommentListType } from "@/providers/FeedProvider";
 import React from "react";
-import { FeedBody } from "../FeedBody/FeedBody";
 import { FeedHeader } from "../FeedHeader/FeedHeader";
 
 export type FeedCommentsProps = {

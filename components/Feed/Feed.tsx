@@ -7,25 +7,25 @@ export type FeedProps = {};
 export const Feed: React.FC<FeedProps> = (props) => {
   const { getFeedList } = useFeed();
 
-  const [articleData, setArticleData] = useState<FeedItemProps[]>([]);
+  const [feedData, setfeedData] = useState<FeedItemProps[]>([]);
 
   const getData = useCallback(async () => {
-    const articleData = await getFeedList("10", "0");
-    await setArticleData(articleData.articles);
+    const feedData = await getFeedList("10", "0");
+    await setfeedData(feedData.articles);
   }, [getFeedList]);
   // const data = getData();
 
   useEffect(() => {
-    if (!articleData.length) {
+    if (!feedData.length) {
       getData();
     }
-  }, [articleData, getData]);
+  }, [feedData, getData]);
 
   return (
     <div className="container space-y-4">
-      {articleData.length
-        ? articleData.map((article, idx) => (
-            <FeedCard articleData={article} key={idx} />
+      {feedData.length
+        ? feedData.map((article, idx) => (
+            <FeedCard feedData={article} key={idx} />
           ))
         : null}
     </div>
