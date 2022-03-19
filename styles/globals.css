@@ -7,7 +7,7 @@
 @layer base {
   html,
   body {
-    @apply font-medium bg-black-0c0f13 text-white;
+    @apply font-medium bg-black-07080b text-white;
   }
 }
 

@@ -5,6 +5,9 @@ const { svgr } = require("./config/svgr");
 
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ["api.realworld.io"],
+  },
   webpack(config, option) {
     svgr(config, option);
     config.module.rules.push({

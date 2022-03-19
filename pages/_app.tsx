@@ -5,6 +5,7 @@ import { NextComponentType } from "next";
 import { BaseLayout } from "@/components/Layout/BaseLayout";
 import { ModalProvider } from "@/providers/ModalProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { FeedProvider } from "@/providers/FeedProvider";
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
@@ -12,11 +13,13 @@ const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
 }) => {
   return (
     <AuthProvider>
-      <ModalProvider>
-        <BaseLayout>
-          <Component {...pageProps} />
-        </BaseLayout>
-      </ModalProvider>
+      <FeedProvider>
+        <ModalProvider>
+          <BaseLayout>
+            <Component {...pageProps} />
+          </BaseLayout>
+        </ModalProvider>
+      </FeedProvider>
     </AuthProvider>
   );
 };

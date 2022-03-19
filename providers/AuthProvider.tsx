@@ -5,13 +5,11 @@ import React, { useContext, useMemo, useState } from "react";
 type AuthTrigger = (redirectUrl?: string) => void;
 
 type User = {
-  user: {
-    email: string;
-    username: string;
-    bio: string;
-    image: string;
-    token: string;
-  };
+  email: string;
+  username: string;
+  bio: string | null;
+  image: string;
+  token: string;
 };
 
 type Login = {
@@ -24,11 +22,11 @@ export type Auth = {
 } & (
   | {
       isLoggedIn: false;
-      // user: undefined;
+      user: undefined;
     }
   | {
       isLoggedIn: true;
-      // user: User;
+      user: User;
     }
 );
 
@@ -39,8 +37,14 @@ const AuthContext = React.createContext({} as Auth);
 export const useAuth = () => useContext(AuthContext);
 export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const [userInfo, setUserInfo] = useState<User>();
+  const [user, setUser] = useState<User | undefined>({
+    username: "sdasda",
+    image: "https://api.realworld.io/images/smiley-cyrus.jpeg",
+    bio: null,
+    email: "dasdasd@gmail.com",
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhc2Rhc2RAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzZGFzZGEiLCJwYXNzd29yZCI6IiQyYSQxMCRld1dtRGlCbmh1VGc0bENzQ3RoMXJ1a2hFRGlzdy5sSzlqbXBCVEVRRGd1N1pKd09hM3dYUyIsImJpbyI6bnVsbCwiaW1hZ2UiOiJodHRwczovL2FwaS5yZWFsd29ybGQuaW8vaW1hZ2VzL3NtaWxleS1jeXJ1cy5qcGVnIiwiaWF0IjoxNjQ3NzA4NzQ3LCJleHAiOjE2NTI4OTI3NDd9.6TdS60WqWdWg9zO6CcUAbGvLG46ZoIQ0SCo-hcD6Y-E",
+  });
 
   const submit = async (loginData: Login) => {
     try {
@@ -54,7 +58,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
         body: JSON.stringify({ user: loginData }),
       });
 
-      const user = data.json();
+      // const user = data.json();
 
       // console.log(user);
 
@@ -70,9 +74,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
     return {
       submit,
       isLoggedIn,
-      userInfo,
-    };
-  }, [isLoggedIn, userInfo]);
+      user,
+    } as Auth;
+  }, [user, isLoggedIn]);
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
   );

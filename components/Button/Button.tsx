@@ -39,10 +39,11 @@ export const Button = ({
 }: ButtonProps) => {
   const btnClassName = `hover:no-underline font-semibold border flex items-center justify-center
     ${textClassName} ${borderRadiusClassName} ${paddingClassName} ${className} ${
-    disabled
-      ? `cursor-default ${"border-grey-b6b6b6 text-grey-b6b6b6"}`
-      : customColorClassName ||
-        "text-purple-8f27aa bg-white border-purple-8f27aa"
+    customColorClassName
+      ? customColorClassName
+      : invertedColor
+      ? "text-white rounded-3xl"
+      : "bg-white text-black-full rounded-3xl"
   }`;
 
   return isWithHref(otherProps) ? (

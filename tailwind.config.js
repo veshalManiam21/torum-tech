@@ -8,12 +8,20 @@ module.exports = {
     extend: {
       colors: {
         black: {
-          "0c0f13": "#0c0f13",
+          "07080b": "#07080b",
+          "0d0f14": "#0d0f14",
           full: "#000",
         },
         red: {
           ff3b30: "#ff3b30",
         },
+      },
+      display: ["group-hover"],
+      fontSize: {
+        xxs: "0.625rem",
+      },
+      minWidth: {
+        xs: "280",
       },
     },
   },
