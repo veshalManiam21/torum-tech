@@ -36,7 +36,24 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
     />
   );
 
-  const feedPostTime = createdAt;
+  const getNumberOfHours = (feedDate: Date) => {
+    const currentDateTime = new Date();
+
+    const differenceTime =
+      (currentDateTime.getTime() - feedDate.getTime()) / (1000 * 3600 * 24);
+
+    let finalPostedTime: number =
+      differenceTime < 1
+        ? currentDateTime.getTime() - feedDate.getTime() / (1000 * 3600)
+        : differenceTime;
+
+    return {
+      duration: finalPostedTime.toFixed(0),
+      unit: differenceTime < 1 ? "h" : "d",
+    };
+  };
+
+  const postDate = getNumberOfHours(new Date(createdAt));
 
   return (
     <div
@@ -57,7 +74,9 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
               {user.name}
               {profileCard}
             </Link>
-            <div className="text-xxs text-gray-400">15h</div>
+            <div className="text-xxs text-gray-400">
+              {`${postDate.duration}${postDate.unit}`}
+            </div>
           </div>
           {title && desc ? (
             <div className="space-y-1 mt-1">
