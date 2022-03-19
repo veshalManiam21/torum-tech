@@ -4,17 +4,20 @@ import type { AppContext, AppInitialProps, AppProps } from "next/app";
 import { NextComponentType } from "next";
 import { BaseLayout } from "@/components/Layout/BaseLayout";
 import { ModalProvider } from "@/providers/ModalProvider";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
   Component,
   pageProps,
 }) => {
   return (
-    <ModalProvider>
-      <BaseLayout>
-        <Component {...pageProps} />
-      </BaseLayout>
-    </ModalProvider>
+    <AuthProvider>
+      <ModalProvider>
+        <BaseLayout>
+          <Component {...pageProps} />
+        </BaseLayout>
+      </ModalProvider>
+    </AuthProvider>
   );
 };
 

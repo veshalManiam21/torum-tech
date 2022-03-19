@@ -11,6 +11,9 @@ module.exports = {
           "0c0f13": "#0c0f13",
           full: "#000",
         },
+        red: {
+          ff3b30: "#ff3b30",
+        },
       },
     },
   },
