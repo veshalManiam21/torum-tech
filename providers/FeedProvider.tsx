@@ -20,7 +20,7 @@ type AuthorType = {
   following: boolean;
 };
 
-type FeedListType = {
+export type FeedListType = {
   articles: FeedItemProps[];
   articleCount: number;
 };
@@ -41,39 +41,82 @@ type CommentDetailType = {
   author: AuthorType;
 };
 
+type SubmitPostType = {
+  slug: string;
+  comment: {
+    body: string;
+  };
+};
+
 export type FeedContextProps = {
-  getFeedList: (limit: string, offset: string) => Promise<FeedListType>;
+  getFeedList: () => Promise<FeedListType>;
   getFeedComments: (slug: string) => Promise<CommentListType["comments"]>;
+  submitComment: (info: SubmitPostType) => Promise<boolean>;
+  deleteComment: (slug: string, id: string) => Promise<boolean>;
 };
 
 const FeedContext = React.createContext({} as FeedContextProps);
 export const useFeed = () => useContext(FeedContext);
+
 export const FeedProvider: React.FC = (props) => {
-  const getFeedList = useCallback(async (limit: string, offset: string) => {
-    const feedsPromise = await fetch(
-      `https://api.realworld.io/api/articles?limit=${limit}&offset=${offset}`
-    );
+  const getFeedList = useCallback(async () => {
+    const feedsPromise = await fetch("/api/feed/list");
 
     const articles: FeedListType = await feedsPromise.json();
     return articles;
   }, []);
 
   const getFeedComments = useCallback(async (slug: string) => {
-    const commentsPromise = await fetch(
-      `https://api.realworld.io/api/articles/${slug}/comments`
-    );
-
-    const comments: CommentListType = await commentsPromise.json();
-
+    const getComments = await fetch("/api/feed/getComments", {
+      body: slug,
+      method: "POST",
+    });
+    const comments: CommentListType = await getComments.json();
     return comments.comments;
+  }, []);
+
+  const submitComment = useCallback(async (info: SubmitPostType) => {
+    try {
+      const submitedComments = await fetch("/api/feed/postComment", {
+        method: "POST",
+        body: JSON.stringify(info),
+      });
+
+      const isSubmitted = await submitedComments.json();
+
+      return isSubmitted ? true : false;
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const deleteComment = useCallback(async (slug: string, id: string) => {
+    try {
+      const deleteComment = await fetch("/api/feed/deleteComment", {
+        method: "POST",
+        body: JSON.stringify({
+          slug,
+          id,
+        }),
+      });
+
+      const isDeleted = await deleteComment.json();
+      // console.log(isDeleted);
+
+      return isDeleted;
+    } catch {
+      return false;
+    }
   }, []);
 
   const value = useMemo<FeedContextProps>(() => {
     return {
       getFeedList,
       getFeedComments,
+      submitComment,
+      deleteComment,
     };
-  }, [getFeedList, getFeedComments]);
+  }, [getFeedList, getFeedComments, submitComment, deleteComment]);
   return (
     <FeedContext.Provider value={value}>{props.children}</FeedContext.Provider>
   );

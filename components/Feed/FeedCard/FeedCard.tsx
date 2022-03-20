@@ -11,6 +11,7 @@ import { FeedHeader } from "@/components/Feed//FeedHeader/FeedHeader";
 import { FeedBody } from "@/components/Feed//FeedBody/FeedBody";
 import { FeedComments } from "../FeedComments/FeedComments";
 import { FeedTags } from "../FeedTags/FeedTags";
+import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator";
 
 export type FeedCardProps = {
   feedData: FeedItemProps;
@@ -67,14 +68,17 @@ export const FeedCard: React.FC<FeedCardProps> = ({ feedData }) => {
       />
       {/* User Comment Box */}
       <div className="py-2 border-b border-black-07080b">
-        <FeedUserInput slug={feedData.slug} />
+        <FeedUserInput slug={feedData.slug} setCommentsData={setCommentsData} />
       </div>
 
       {/* Comments */}
-      {commentsData.length &&
+      {commentsData.length ? (
         commentsData.map((comment, idx) => (
-          <FeedComments key={idx} comments={comment} />
-        ))}
+          <FeedComments key={idx} comments={comment} slug={feedData.slug} />
+        ))
+      ) : (
+        <LoadingIndicator className="w-24 h-24" />
+      )}
     </div>
   );
 };

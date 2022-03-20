@@ -6,5 +6,5 @@ export type FeedBodyProps = {
 };
 
 export const FeedBody: React.FC<FeedBodyProps> = ({ body }) => {
-  return <div className="text-sm">{body}</div>;
+  return <div className="text-sm font-normal">{body}</div>;
 };

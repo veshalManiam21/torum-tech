@@ -1,5 +1,6 @@
 import { FeedItemProps, useFeed } from "@/providers/FeedProvider";
 import React, { useCallback, useEffect, useState } from "react";
+import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { FeedCard } from "./FeedCard/FeedCard";
 
 export type FeedProps = {};
@@ -10,7 +11,7 @@ export const Feed: React.FC<FeedProps> = (props) => {
   const [feedData, setfeedData] = useState<FeedItemProps[]>([]);
 
   const getData = useCallback(async () => {
-    const feedData = await getFeedList("10", "0");
+    const feedData = await getFeedList();
     await setfeedData(feedData.articles);
   }, [getFeedList]);
   // const data = getData();
@@ -23,11 +24,13 @@ export const Feed: React.FC<FeedProps> = (props) => {
 
   return (
     <div className="container space-y-4">
-      {feedData.length
-        ? feedData.map((article, idx) => (
-            <FeedCard feedData={article} key={idx} />
-          ))
-        : null}
+      {feedData.length ? (
+        feedData.map((article, idx) => (
+          <FeedCard feedData={article} key={idx} />
+        ))
+      ) : (
+        <LoadingIndicator className="w-24 h-24" />
+      )}
     </div>
   );
 };

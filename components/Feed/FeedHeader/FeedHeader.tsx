@@ -5,6 +5,9 @@ import IconDelete from "@/assets/icon_delete.svg";
 
 import React from "react";
 import { FeedBody } from "../FeedBody/FeedBody";
+import { useModal } from "@/providers/ModalProvider";
+import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
+import { useFeed } from "@/providers/FeedProvider";
 
 export type FeedHeaderProps = {
   createdAt: string;
@@ -18,12 +21,14 @@ export type FeedHeaderProps = {
   };
   slug?: string;
   body?: string;
+  id?: string;
 };
 
 export const FeedHeader: React.FC<FeedHeaderProps> = ({
   body,
   createdAt,
   desc,
+  id,
   slug,
   title,
   user,
@@ -34,9 +39,14 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
         bio: user.bio,
         isFollowing: user.isFollowing,
         name: user.name,
+        image: user.image,
       }}
     />
   );
+
+  const { openModal, closeModal } = useModal();
+
+  const { deleteComment } = useFeed();
 
   const getNumberOfHours = (feedDate: Date) => {
     const currentDateTime = new Date();
@@ -72,7 +82,7 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
       <div className="flex justify-between items-start w-full">
         <div className="flex flex-col">
           <div className="flex items-center space-x-2">
-            <Link href="#" className="hover:underline group relative">
+            <Link href="#" className="hover:underline group relative font-bold">
               {user.name}
               {profileCard}
             </Link>
@@ -100,9 +110,27 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
 
           {body ? <FeedBody body={body} /> : null}
         </div>
-        <button className="py-2">
-          <IconDelete width="20" height="20" />
-        </button>
+
+        {slug && id ? (
+          <button
+            className="py-2"
+            onClick={() => {
+              openModal({
+                content: (
+                  <ConfirmModal
+                    onConfirm={() => {
+                      deleteComment(slug, id.toString());
+                    }}
+                    onCancel={closeModal}
+                    title="Are you sure you want to delete this comment?"
+                  />
+                ),
+              });
+            }}
+          >
+            <IconDelete width="20" height="20" />
+          </button>
+        ) : null}
       </div>
     </div>
   );
