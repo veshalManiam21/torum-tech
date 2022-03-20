@@ -101,7 +101,6 @@ export const FeedProvider: React.FC = (props) => {
       });
 
       const isDeleted = await deleteComment.json();
-      // console.log(isDeleted);
 
       return isDeleted;
     } catch {

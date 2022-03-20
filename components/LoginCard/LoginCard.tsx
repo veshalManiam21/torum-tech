@@ -60,7 +60,6 @@ export const LoginCard: React.FC<LoginCardProps> = ({ onCloseModal }) => {
           })}
         />
         <Button
-          // isLoading={isConfirming}
           className="w-full py-3 mb-2 uppercase max-w-40"
           onClick={handleSubmit(async ({ email, password }) => {
             if (submit) {

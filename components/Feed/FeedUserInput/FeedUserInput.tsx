@@ -61,10 +61,6 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
                 },
                 slug,
               });
-
-              // if (isSubmit) {
-              //   setCommentsData((prev) => [...prev, comment]);
-              // }
             }
           })}
           borderRadiusClassName="rounded-full"

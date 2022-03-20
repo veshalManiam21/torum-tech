@@ -14,7 +14,6 @@ export const Feed: React.FC<FeedProps> = (props) => {
     const feedData = await getFeedList();
     await setfeedData(feedData.articles);
   }, [getFeedList]);
-  // const data = getData();
 
   useEffect(() => {
     if (!feedData.length) {
