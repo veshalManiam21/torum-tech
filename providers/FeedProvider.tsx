@@ -93,7 +93,7 @@ export const FeedProvider: React.FC = (props) => {
   const deleteComment = useCallback(async (slug: string, id: string) => {
     try {
       const deleteComment = await fetch("/api/feed/deleteComment", {
-        method: "POST",
+        method: "DELETE",
         body: JSON.stringify({
           slug,
           id,
@@ -103,7 +103,7 @@ export const FeedProvider: React.FC = (props) => {
       const isDeleted = await deleteComment.json();
 
       return isDeleted;
-    } catch {
+    } catch (err) {
       return false;
     }
   }, []);

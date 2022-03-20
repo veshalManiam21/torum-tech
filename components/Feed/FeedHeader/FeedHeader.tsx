@@ -3,7 +3,7 @@ import { Link } from "@/components/Link/Link";
 import { ProfileCard } from "@/components/ProfileCard/ProfileCard";
 import IconDelete from "@/assets/icon_delete.svg";
 
-import React from "react";
+import React, { useState } from "react";
 import { FeedBody } from "../FeedBody/FeedBody";
 import { useModal } from "@/providers/ModalProvider";
 import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
@@ -121,14 +121,28 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
               openModal({
                 content: isLoggedIn ? (
                   <ConfirmModal
-                    onConfirm={() => {
-                      deleteComment(slug, id.toString());
+                    onConfirm={async () => {
+                      const isDeleted = await deleteComment(slug, id);
+                      await closeModal();
+                      if (!isDeleted) {
+                        setTimeout(() => {
+                          openModal({
+                            content: (
+                              <ConfirmModal
+                                onConfirm={closeModal}
+                                confirmText="Okay"
+                                title="Something went wrong. Try again later."
+                              />
+                            ),
+                          });
+                        }, 500);
+                      }
                     }}
                     onCancel={closeModal}
                     title="Are you sure you want to delete this comment?"
                   />
                 ) : (
-                  <LoginCard />
+                  <LoginCard onCloseModal={closeModal} />
                 ),
               });
             }}

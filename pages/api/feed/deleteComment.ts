@@ -10,11 +10,11 @@ export default async function handler(
 
   const { body } = req;
 
-  const bodyData = JSON.parse(body.id);
+  const bodyData = JSON.parse(body);
 
   try {
     const deleteComment = await fetch(
-      `https://api.realworld.io/api/articles/${bodyData.slug}/comments/${body.id}`,
+      `https://api.realworld.io/api/articles/${bodyData.slug}/comments/${bodyData.id}`,
       {
         method: "DELETE",
         headers: {
@@ -25,16 +25,14 @@ export default async function handler(
       }
     );
 
-    console.log(deleteComment);
-
     const isDeleted = await deleteComment.json();
 
-    console.log("server", isDeleted);
+    console.log(isDeleted);
 
-    if (isDeleted) {
+    if (!isDeleted.message) {
       res.status(200).json(true);
     } else {
-      res.status(200).json(false);
+      res.status(400).json(false);
     }
   } catch (error) {
     console.log(error);

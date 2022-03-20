@@ -25,7 +25,7 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
 }) => {
   const { user, isLoggedIn } = useAuth();
 
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const { submitComment } = useFeed();
 
@@ -57,7 +57,7 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
         />
         <Button
           disabled={!isValid}
-          onClick={() =>
+          onClick={
             isLoggedIn
               ? handleSubmit(async ({ comment }) => {
                   if (submitComment) {
@@ -69,10 +69,11 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
                     });
                   }
                 })
-              : openModal({
-                  content: <LoginCard />,
-                  showCloseButton: true,
-                })
+              : () =>
+                  openModal({
+                    content: <LoginCard onCloseModal={closeModal} />,
+                    showCloseButton: true,
+                  })
           }
           borderRadiusClassName="rounded-full"
           className="w-auto"

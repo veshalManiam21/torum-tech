@@ -12,8 +12,6 @@ export default async function handler(
 
   const bodyData = JSON.parse(body);
 
-  console.log(bodyData, JSON.stringify(bodyData.comment));
-
   try {
     const submitComment = await fetch(
       `https://api.realworld.io/api/articles/${bodyData.slug}/comments`,
@@ -28,17 +26,17 @@ export default async function handler(
       }
     );
 
-    const isSubmitted = await submitComment.json();
+    const isSubmitted: boolean = await submitComment.json();
 
     console.log(isSubmitted);
 
-    if (isSubmitted) {
+    if (typeof isSubmitted === "boolean") {
       res.status(200).json(true);
     } else {
-      res.status(200).json(false);
+      res.status(400).json(false);
     }
   } catch (error) {
     console.log(error);
-    res.status(404).json(false);
+    res.status(400).json(false);
   }
 }

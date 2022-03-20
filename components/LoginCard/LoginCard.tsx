@@ -5,7 +5,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useForm } from "react-hook-form";
 
 export type LoginCardProps = {
-  onCloseModal?: () => void;
+  onCloseModal: () => void;
 };
 
 type LoginFormProp = {
@@ -63,9 +63,12 @@ export const LoginCard: React.FC<LoginCardProps> = ({ onCloseModal }) => {
           className="w-full py-3 mb-2 uppercase max-w-40"
           onClick={handleSubmit(async ({ email, password }) => {
             if (submit) {
-              await submit({ email, password });
-
-              onCloseModal?.();
+              try {
+                await submit({ email, password });
+                await onCloseModal();
+              } catch {
+                // handle error here
+              }
             }
           })}
           customColorClassName="bg-blue-900 hover:bg-blue-700 text-blue-500 border-0"
