@@ -10,7 +10,7 @@ export default async function handler(
 
   const { body } = req;
 
-  const bodyData = JSON.parse(body);
+  const bodyData = JSON.parse(body.id);
 
   try {
     const deleteComment = await fetch(

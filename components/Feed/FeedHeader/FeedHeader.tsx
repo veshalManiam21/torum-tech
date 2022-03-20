@@ -8,6 +8,8 @@ import { FeedBody } from "../FeedBody/FeedBody";
 import { useModal } from "@/providers/ModalProvider";
 import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
 import { useFeed } from "@/providers/FeedProvider";
+import { useAuth } from "@/providers/AuthProvider";
+import { LoginCard } from "@/components/LoginCard/LoginCard";
 
 export type FeedHeaderProps = {
   createdAt: string;
@@ -45,6 +47,7 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
   );
 
   const { openModal, closeModal } = useModal();
+  const { isLoggedIn } = useAuth();
 
   const { deleteComment } = useFeed();
 
@@ -116,7 +119,7 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
             className="py-2"
             onClick={() => {
               openModal({
-                content: (
+                content: isLoggedIn ? (
                   <ConfirmModal
                     onConfirm={() => {
                       deleteComment(slug, id.toString());
@@ -124,11 +127,13 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
                     onCancel={closeModal}
                     title="Are you sure you want to delete this comment?"
                   />
+                ) : (
+                  <LoginCard />
                 ),
               });
             }}
           >
-            <IconDelete width="20" height="20" />
+            <IconDelete width="14" height="14" />
           </button>
         ) : null}
       </div>

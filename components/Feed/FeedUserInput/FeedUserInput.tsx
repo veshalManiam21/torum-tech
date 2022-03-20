@@ -1,8 +1,10 @@
 import { Button } from "@/components/Button/Button";
 import { ImageFallback } from "@/components/ImageFallback/ImageFallback";
 import { InputText } from "@/components/InputText/InputText";
+import { LoginCard } from "@/components/LoginCard/LoginCard";
 import { useAuth } from "@/providers/AuthProvider";
 import { CommentListType, useFeed } from "@/providers/FeedProvider";
+import { useModal } from "@/providers/ModalProvider";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -21,7 +23,9 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
   slug,
   setCommentsData,
 }) => {
-  const { user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
+
+  const { openModal } = useModal();
 
   const { submitComment } = useFeed();
 
@@ -53,16 +57,23 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
         />
         <Button
           disabled={!isValid}
-          onClick={handleSubmit(async ({ comment }) => {
-            if (submitComment) {
-              const isSubmit = await submitComment({
-                comment: {
-                  body: comment,
-                },
-                slug,
-              });
-            }
-          })}
+          onClick={() =>
+            isLoggedIn
+              ? handleSubmit(async ({ comment }) => {
+                  if (submitComment) {
+                    const isSubmit = await submitComment({
+                      comment: {
+                        body: comment,
+                      },
+                      slug,
+                    });
+                  }
+                })
+              : openModal({
+                  content: <LoginCard />,
+                  showCloseButton: true,
+                })
+          }
           borderRadiusClassName="rounded-full"
           className="w-auto"
           customColorClassName="bg-blue-400 w-max ease-in-out transition  hover:bg-blue-700 text-white border-0"
