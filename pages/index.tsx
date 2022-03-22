@@ -1,7 +1,25 @@
-import type { NextPage } from "next";
+import React from "react";
+import { NextPage } from "../typings/types";
+import { Feed } from "@/components/Feed/Feed";
 
-const Home: NextPage = () => {
-  return <div>Hello world</div>;
+import type { GetStaticProps } from "next";
+
+type IndexPageProps = {};
+
+const IndexPage: NextPage<IndexPageProps> = () => {
+  const login = () => {};
+
+  return (
+    <main className="">
+      <Feed />
+    </main>
+  );
 };
 
-export default Home;
+export const getStaticProps: GetStaticProps<IndexPageProps> = async () => {
+  return {
+    props: {},
+  };
+};
+
+export default IndexPage;

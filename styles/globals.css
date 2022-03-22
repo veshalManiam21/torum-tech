@@ -2,10 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./reactModal.css";
+
 @layer base {
   html,
   body {
-    @apply font-medium bg-white text-black;
+    @apply font-medium bg-black-07080b text-white;
   }
 }
 
