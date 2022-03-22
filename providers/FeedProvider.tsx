@@ -51,7 +51,7 @@ type SubmitPostType = {
 export type FeedContextProps = {
   getFeedList: () => Promise<FeedListType>;
   getFeedComments: (slug: string) => Promise<CommentListType["comments"]>;
-  submitComment: (info: SubmitPostType) => Promise<boolean>;
+  submitComment: (info: SubmitPostType) => Promise<CommentDetailType>;
   deleteComment: (slug: string, id: string) => Promise<boolean>;
 };
 
@@ -84,7 +84,7 @@ export const FeedProvider: React.FC = (props) => {
 
       const isSubmitted = await submitedComments.json();
 
-      return isSubmitted ? true : false;
+      return isSubmitted.comment;
     } catch {
       return false;
     }

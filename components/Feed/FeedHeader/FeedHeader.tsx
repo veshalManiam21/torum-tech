@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { FeedBody } from "../FeedBody/FeedBody";
 import { useModal } from "@/providers/ModalProvider";
 import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
-import { useFeed } from "@/providers/FeedProvider";
+import { CommentListType, useFeed } from "@/providers/FeedProvider";
 import { useAuth } from "@/providers/AuthProvider";
 import { LoginCard } from "@/components/LoginCard/LoginCard";
 
@@ -24,6 +24,9 @@ export type FeedHeaderProps = {
   slug?: string;
   body?: string;
   id?: string;
+  setCommentsData?: React.Dispatch<
+    React.SetStateAction<CommentListType["comments"]>
+  >;
 };
 
 export const FeedHeader: React.FC<FeedHeaderProps> = ({
@@ -34,6 +37,7 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
   slug,
   title,
   user,
+  setCommentsData,
 }) => {
   const profileCard = (
     <ProfileCard
@@ -51,24 +55,22 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
 
   const { deleteComment } = useFeed();
 
-  const getNumberOfHours = (feedDate: Date) => {
-    const currentDateTime = new Date();
+  function msToTime(date: Date) {
+    let todayDate = new Date().getTime();
+    let timeDifference = todayDate - date.getTime();
 
-    const differenceTime =
-      (currentDateTime.getTime() - feedDate.getTime()) / (1000 * 3600 * 24);
+    let seconds = parseFloat((timeDifference / 1000).toFixed(0));
+    let minutes = parseFloat((timeDifference / (1000 * 60)).toFixed(0));
+    let hours = parseFloat((timeDifference / (1000 * 60 * 60)).toFixed(0));
+    let days = (timeDifference / (1000 * 60 * 60 * 24)).toFixed(0);
 
-    let finalPostedTime: number =
-      differenceTime < 1
-        ? currentDateTime.getTime() - feedDate.getTime() / (1000 * 3600)
-        : differenceTime;
+    if (seconds < 60) return seconds + "s";
+    else if (minutes < 60) return minutes + "m";
+    else if (hours < 24) return hours + "h";
+    else return days + "d";
+  }
 
-    return {
-      duration: finalPostedTime.toFixed(0),
-      unit: differenceTime < 1 ? "h" : "d",
-    };
-  };
-
-  const postDate = getNumberOfHours(new Date(createdAt));
+  const postDate = msToTime(new Date(createdAt));
 
   return (
     <div
@@ -89,9 +91,7 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
               {user.name}
               {profileCard}
             </Link>
-            <div className="text-xxs text-gray-400">
-              {`${postDate.duration}${postDate.unit}`}
-            </div>
+            <div className="text-xxs text-gray-400">{`${postDate}`}</div>
           </div>
           {title && desc ? (
             <div className="space-y-1 mt-1">
@@ -136,6 +136,10 @@ export const FeedHeader: React.FC<FeedHeaderProps> = ({
                             ),
                           });
                         }, 500);
+                      } else {
+                        setCommentsData?.((prev) =>
+                          prev.filter((comment) => comment.id !== id)
+                        );
                       }
                     }}
                     onCancel={closeModal}

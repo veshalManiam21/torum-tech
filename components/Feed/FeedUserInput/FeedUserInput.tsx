@@ -33,6 +33,7 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
     handleSubmit,
     register,
     formState: { errors, isValid },
+    reset,
   } = useForm<CommentProp>({
     defaultValues: {
       comment: "",
@@ -49,7 +50,7 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
         <InputText
           placeholder="Comment on this..."
           containerClassName="w-full max-w-lg "
-          className="border-0 text-xs focus:outline-none px-0 placeholder:text-left placeholder:text-gray-500 bg-transparent active:border-0"
+          className="border-0 text-xs focus:outline-none px-2 placeholder:text-left placeholder:text-gray-500 bg-transparent active:border-0"
           error={errors["comment"]?.message}
           {...register("comment", {
             required: true,
@@ -61,12 +62,15 @@ export const FeedUserInput: React.FC<FeedUserInputProps> = ({
             isLoggedIn
               ? handleSubmit(async ({ comment }) => {
                   if (submitComment) {
-                    const isSubmit = await submitComment({
+                    const submitedData = await submitComment({
                       comment: {
                         body: comment,
                       },
                       slug,
                     });
+
+                    await setCommentsData((prev) => [submitedData, ...prev]);
+                    await reset();
                   }
                 })
               : () =>

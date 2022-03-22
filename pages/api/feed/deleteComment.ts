@@ -5,16 +5,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<boolean>
 ) {
-  let cookies = new Cookies(req, res, { keys: ["token"] });
-  let bearerToken = cookies.get("token", { signed: true });
+  let cookies = await new Cookies(req, res, { keys: ["token"] });
+  let bearerToken = await cookies.get("token", { signed: true });
 
-  const { body } = req;
+  const { body } = await req;
 
-  const bodyData = JSON.parse(body);
+  const bodyData = await JSON.parse(body);
 
   try {
     const deleteComment = await fetch(
-      `https://api.realworld.io/api/articles/${bodyData.slug}/comments/${bodyData.id}`,
+      `https://api.realworld.io/api/articles/${
+        bodyData.slug
+      }/comments/${bodyData.id.toString()}`,
       {
         method: "DELETE",
         headers: {
@@ -25,11 +27,9 @@ export default async function handler(
       }
     );
 
-    const isDeleted = await deleteComment.json();
+    const isDeleted = await deleteComment.ok;
 
-    console.log(isDeleted);
-
-    if (!isDeleted.message) {
+    if (isDeleted) {
       res.status(200).json(true);
     } else {
       res.status(400).json(false);

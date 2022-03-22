@@ -74,7 +74,12 @@ export const FeedCard: React.FC<FeedCardProps> = ({ feedData }) => {
       {/* Comments */}
       {commentsData.length ? (
         commentsData.map((comment, idx) => (
-          <FeedComments key={idx} comments={comment} slug={feedData.slug} />
+          <FeedComments
+            key={idx}
+            comments={comment}
+            slug={feedData.slug}
+            setCommentsData={setCommentsData}
+          />
         ))
       ) : (
         <LoadingIndicator className="w-24 h-24" />

@@ -28,12 +28,10 @@ export default async function handler(
 
     const isSubmitted: boolean = await submitComment.json();
 
-    console.log(isSubmitted);
-
-    if (typeof isSubmitted === "boolean") {
-      res.status(200).json(true);
+    if (typeof isSubmitted === "object") {
+      res.status(200).json(isSubmitted);
     } else {
-      res.status(400).json(false);
+      res.status(400);
     }
   } catch (error) {
     console.log(error);
